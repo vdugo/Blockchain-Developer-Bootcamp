@@ -23,4 +23,12 @@ contract Token
         // to the entire totalSupply of the tokens that we specified
         balanceOf[msg.sender] = totalSupply;
     }
+
+    function transfer(address _to, uint256 _value) public returns(bool success)
+    {
+        // Deduct tokens from spender
+        balanceOf[msg.sender] -= _value;
+        // Credit tokens to receiver
+        balanceOf[_to] += _value;
+    }
 }
