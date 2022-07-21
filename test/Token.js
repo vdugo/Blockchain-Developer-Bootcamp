@@ -69,13 +69,19 @@ describe('Token', () =>
         {
             amount = tokens(100)
             transaction = await token.connect(deployer).transfer(receiver.address, amount)
-            result = transaction.wait()
+            result = await transaction.wait()
         })
 
         it('transfers token balances', async () => 
         {
             expect(await token.balanceOf(deployer.address)).to.equal(tokens(999900))
             expect(await token.balanceOf(receiver.address)).to.equal(amount)
+        })
+
+        it('emits a transfer event', async () => 
+        {
+            const event = result.events[0].event
+            expect(event).to.equal('Transfer')
         })
     })
 

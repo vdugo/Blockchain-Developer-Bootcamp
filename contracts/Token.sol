@@ -12,7 +12,8 @@ contract Token
 
     // Track Balances
     mapping(address => uint256) public balanceOf;
-    // Send Tokens
+    
+    event Transfer(address indexed _from, address indexed _to, uint256 _value);
 
     constructor(string memory _name, string memory _symbol, uint256 _totalSupply)
     {
@@ -30,5 +31,9 @@ contract Token
         balanceOf[msg.sender] -= _value;
         // Credit tokens to receiver
         balanceOf[_to] += _value;
+
+        emit Transfer(msg.sender, _to, _value);
+
+        return true;
     }
 }
