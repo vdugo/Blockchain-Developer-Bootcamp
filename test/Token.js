@@ -14,15 +14,21 @@ describe('Token', () =>
 
     it('has correct name', async () => 
     {
-        // Read token name
-        // Check that name is correct
         expect(await token.name()).to.equal('Dapp University')
     })
 
     it('has correct symbol', async () => 
     {
-        // Read token name
-        // Check that name is correct
         expect(await token.symbol()).to.equal('DAPP')
+    })
+
+    it('has correct decimals', async () => 
+    {
+        expect(await token.decimals()).to.equal(18)
+    })
+
+    it('has correct total supply', async () => 
+    {
+        expect(await token.totalSupply()).to.equal(1000000000000000000n)
     })
 })

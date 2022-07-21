@@ -7,4 +7,6 @@ contract Token
 {
     string public name = "Dapp University";
     string public symbol = "DAPP";
+    uint8 public decimals = 18;
+    uint256 public totalSupply = 1000000000000000000; // 1,000,000 * 10^18
 }
