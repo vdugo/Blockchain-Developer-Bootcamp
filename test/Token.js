@@ -15,16 +15,14 @@ describe('Token', () =>
     it('has correct name', async () => 
     {
         // Read token name
-        const name = await token.name()
         // Check that name is correct
-        expect(name).to.equal('Dapp University')
+        expect(await token.name()).to.equal('Dapp University')
     })
 
     it('has correct symbol', async () => 
     {
         // Read token name
-        const symbol = await token.symbol()
         // Check that name is correct
-        expect(symbol).to.equal('DAPP')
+        expect(await token.symbol()).to.equal('DAPP')
     })
 })
