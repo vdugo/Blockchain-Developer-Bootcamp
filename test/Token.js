@@ -80,8 +80,14 @@ describe('Token', () =>
 
         it('emits a transfer event', async () => 
         {
-            const event = result.events[0].event
-            expect(event).to.equal('Transfer')
+            const event = result.events[0]
+            expect(event.event).to.equal('Transfer')
+
+            const args = event.args
+            expect(args._from).to.equal(deployer.address)
+            expect(args._to).to.equal(receiver.address)
+            expect(args._value).to.equal(amount)
+
         })
     })
 

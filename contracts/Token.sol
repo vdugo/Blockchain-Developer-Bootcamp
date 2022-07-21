@@ -27,6 +27,8 @@ contract Token
 
     function transfer(address _to, uint256 _value) public returns(bool success)
     {
+        // Require that sender has enough tokens to spend
+        require(balanceOf[msg.sender] >= _value);
         // Deduct tokens from spender
         balanceOf[msg.sender] -= _value;
         // Credit tokens to receiver
