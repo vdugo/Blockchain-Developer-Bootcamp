@@ -3,6 +3,12 @@ const { ethers } = require('hardhat')
 
 describe('Token', () => 
 {
+    const tokens = (n) => 
+    {
+        let value = ethers.utils.parseUnits(n.toString(), 'ether')
+        return value
+    }
+
     let token
 
     beforeEach(async () => 
@@ -29,6 +35,7 @@ describe('Token', () =>
 
     it('has correct total supply', async () => 
     {
-        expect(await token.totalSupply()).to.equal(1000000000000000000n)
+        
+        expect(await token.totalSupply()).to.equal(tokens('1000000'))
     })
 })
