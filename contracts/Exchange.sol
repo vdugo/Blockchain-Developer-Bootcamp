@@ -17,6 +17,7 @@ contract Exchange
     mapping(uint256 => _Order) public orders;
     uint256 public ordersCount;
     mapping(uint256 => bool) public orderCancelled;
+    mapping(uint256 => bool) public orderFilled;
 
     event Deposit(address _token, address _user, uint256 _amount, uint256 _balance);
 
@@ -41,6 +42,18 @@ contract Exchange
         uint256 _amountGet,
         address _tokenGive,
         uint256 _amountGive,
+        uint256 _timestamp
+    );
+
+    event Trade
+    (
+        uint256 _id,
+        address _user,
+        address _tokenGet,
+        uint256 _amountGet,
+        address _tokenGive,
+        uint256 _amountGive,
+        address _creator,
         uint256 _timestamp
     );
 
@@ -185,6 +198,13 @@ contract Exchange
 
     function fillOrder(uint256 _id) public 
     {
+        // 1. Must be valid orderId
+        require(_id > 0 && _id <= ordersCount, "Order does not exist");
+        // 2. Order can't be filled
+        require(!orderFilled[_id]);
+        // 3. Order can't be cancelled
+        require(!orderCancelled[_id]);
+
         // Fetch order
         _Order storage _order = orders[_id];
 
@@ -198,6 +218,9 @@ contract Exchange
             _order.tokenGive,
             _order.amountGive
         );
+
+        // Mark order as filled
+        orderFilled[_order.id] = true;
     }
 
     function _trade
@@ -228,6 +251,19 @@ contract Exchange
         // _user is the maker
         tokens[_tokenGet][_user] += _amountGet;
         tokens[_tokenGive][_user] -= _amountGive;
+
+        // Emit Trade event
+        emit Trade
+        (
+        _orderId,
+        msg.sender,
+        _tokenGet,
+        _amountGet,
+        _tokenGive,
+        _amountGive,
+        _user,
+        block.timestamp
+        );
     }
 
 }
