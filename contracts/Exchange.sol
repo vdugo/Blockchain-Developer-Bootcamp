@@ -94,8 +94,15 @@ contract Exchange
         return tokens[_token][_user];
     }
 
+
+
+
     // -----------------------------
-    // Make and Cancel orders
+    // -----------------------------
+    // -----------------------------
+    // MAKE AND CANCEL ORDERS
+
+
 
     // Token Give (the token they want to spend) - which token, and how much?
     // Token Get (the token they want to receive) - which token, and how much?
@@ -166,4 +173,61 @@ contract Exchange
             block.timestamp
         );
     }
+
+
+
+    // -----------------------------
+    // -----------------------------
+    // -----------------------------
+    // EXECUTING ORDERS
+
+
+
+    function fillOrder(uint256 _id) public 
+    {
+        // Fetch order
+        _Order storage _order = orders[_id];
+
+        // Swapping tokens (trading)
+        _trade
+        (
+            _order.id, 
+            _order.user,
+            _order.tokenGet,
+            _order.amountGet,
+            _order.tokenGive,
+            _order.amountGive
+        );
+    }
+
+    function _trade
+    (
+        uint256 _orderId,
+        address _user,
+        address _tokenGet,
+        uint256 _amountGet,
+        address _tokenGive,
+        uint256 _amountGive
+    ) 
+        internal
+    {
+        // Fee is paid by the taker (user who filled the order aka msg.sender in this case)
+        // Fee is deducted from _amountGet
+        uint256 _feeAmount = (_amountGet * feePercent) / 100;
+
+        // Do trade here
+        // _amountGet and _amountGive refer to the maker
+        // msg.sender is the taker, the person filling the order.
+        // so we have to do the opposite of what we do for the maker
+        tokens[_tokenGet][msg.sender] -= (_amountGet + _feeAmount); // taker pays the fee
+        tokens[_tokenGive][msg.sender] += _amountGive;
+
+        // Charge the fees
+        tokens[_tokenGet][feeAccount] += _feeAmount;
+
+        // _user is the maker
+        tokens[_tokenGet][_user] += _amountGet;
+        tokens[_tokenGive][_user] -= _amountGive;
+    }
+
 }
