@@ -14,9 +14,36 @@ contract Exchange
     // top level is indexed by token
     mapping(address => mapping(address => uint256)) public tokens;
 
+    mapping(uint256 => _Order) public orders;
+    uint256 public ordersCount;
+
     event Deposit(address _token, address _user, uint256 _amount, uint256 _balance);
 
     event Withdraw(address _token, address _user, uint256 _amount, uint256 _balance);
+
+    event Order
+    (
+        uint256 _id,
+        address _user,
+        address _tokenGet, 
+        uint256 _amountGet,
+        address _tokenGive,
+        uint256 _amountGive,
+        uint256 _timestamp
+    );
+
+    struct _Order
+    {
+        uint256 id; // unique identifier for order
+        address user; // user who made the order
+
+        address tokenGet; // address of token they receive
+        uint256 amountGet; // amount they receive
+        address tokenGive; // address of token they give
+        uint256 amountGive; // amount they give
+
+        uint256 timestamp; // when order was created
+    }
 
     constructor(address _feeAccount, uint256 _feePercent)
     {
@@ -54,4 +81,50 @@ contract Exchange
     {
         return tokens[_token][_user];
     }
+
+    // -----------------------------
+    // Make and Cancel orders
+
+    // Token Give (the token they want to spend) - which token, and how much?
+    // Token Get (the token they want to receive) - which token, and how much?
+    function makeOrder(address _tokenGet, uint256 _amountGet, address _tokenGive, uint256 _amountGive) public
+    {
+        // Prevent orders if tokens aren't on the exchange
+        require(balanceOf(_tokenGive, msg.sender) >= _amountGive);
+
+        //struct _Order
+        //uint256 id; // unique identifier for order
+        //address user; // user who made the order
+        //address tokenGet; // address of token they receive
+        //uint256 amountGet; // amount they receive
+        //address tokenGive; // address of token they give
+        //uint256 amountGive; // amount they give
+        //uint256 timestamp; // when order was created, Unix timestamp in seconds starting from Jan 1, 1970
+
+        // instantiate a new order
+        ordersCount += 1;
+        orders[ordersCount] = 
+        _Order
+        (
+            ordersCount, // id, 1, 2, 3
+            msg.sender, // user '0x...abc123'
+            _tokenGet, 
+            _amountGet, 
+            _tokenGive, 
+            _amountGive, 
+            block.timestamp // Unix timestamp 1893507958
+        );
+
+        // Emit event
+        emit Order
+        (
+            ordersCount, // id, 1, 2, 3
+            msg.sender, // user '0x...abc123'
+            _tokenGet, 
+            _amountGet, 
+            _tokenGive, 
+            _amountGive, 
+            block.timestamp // Unix timestamp 1893507958
+        );
+    } 
 }
