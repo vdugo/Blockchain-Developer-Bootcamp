@@ -15,9 +15,9 @@ async function main()
 
   // Deploy contracts
   
-  const dapp = await Token.deploy('Dapp University', 'DAPP', '1000000')
-  await dapp.deployed()
-  console.log(`DAPP Token deployed to ${dapp.address}`)
+  const DApp = await Token.deploy('Dapp University', 'DAPP', '1000000')
+  await DApp.deployed()
+  console.log(`DAPP Token deployed to ${DApp.address}`)
 
   const mETH = await Token.deploy('mETH', 'mETH', '1000000')
   await mETH.deployed()
@@ -38,4 +38,3 @@ main()
     console.log(error)
     process.exit(1)
   })
-  
