@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import Blockies from 'react-blockies'
 
 import logo from '../assets/logo.png'
 
@@ -22,7 +23,18 @@ const Navbar = () => {
             <p><small>My Balance</small>{Number(balance).toFixed(4)}</p> 
             : <p><small>My Balance</small>0 ETH</p>}
             {account ? 
-            <a href="">{account.slice(0,5) + '...' + account.slice(38,42)}</a> 
+            <a href="">
+                {account.slice(0,5) + '...' + account.slice(38,42)}
+                <Blockies
+                    account={account}
+                    size={10}
+                    scale={3}
+                    color="#2187D0"
+                    bgColor="#F1F2F9"
+                    spotColor="#767F92"
+                    className="identicon"
+                />
+            </a>
             : <a href=""></a>}
         </div>
       </div>
