@@ -23,7 +23,7 @@ function App() {
     // fetch current network's chainId (e.g. Hardhat 31337, Kovan 42)
     const chainId = await loadNetwork(provider, dispatch)
     // fetch current account and balance from Metamask
-    await loadAccount(provider, dispatch)
+    //await loadAccount(provider, dispatch)
     // load token smart contracts
     const DApp = config[chainId].DApp
     const mETH = config[chainId].mETH

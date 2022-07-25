@@ -1,11 +1,21 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Blockies from 'react-blockies'
 
 import logo from '../assets/logo.png'
 
+import { loadAccount } from '../store/interactions'
+
 const Navbar = () => {
+    const provider = useSelector(state => state.provider.connection)
     const account = useSelector(state => state.provider.account)
     const balance = useSelector(state => state.provider.balance)
+
+    const dispatch = useDispatch()
+
+    const connectHandler = async () =>
+    {
+        await loadAccount(provider, dispatch)
+    }
 
     return(
       <div className='exchange__header grid'>
@@ -35,7 +45,7 @@ const Navbar = () => {
                     className="identicon"
                 />
             </a>
-            : <a href=""></a>}
+            : <button className="button" onClick={connectHandler}>Connect</button> }
         </div>
       </div>
     )
