@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import dapp from '../assets/dapp.svg'
+import eth from '../assets/eth.svg'
 
 import { loadBalances, transferTokens } from '../store/interactions';
 
 const Balance = () => {
     const [token1TransferAmount, setToken1TransferAmount] = useState(0)
+    const [token2TransferAmount, setToken2TransferAmount] = useState(0)
 
     const dispatch = useDispatch()
 
@@ -30,6 +32,10 @@ const Balance = () => {
         {
             setToken1TransferAmount(event.target.value)
         }
+        else
+        {
+            setToken2TransferAmount(event.target.value)
+        }
     }
 
     const depositHandler = (event, token) => 
@@ -40,6 +46,11 @@ const Balance = () => {
         {
             transferTokens(provider, exchange, 'Deposit', token, token1TransferAmount, dispatch)
             setToken1TransferAmount(0)
+        }
+        else
+        {
+            transferTokens(provider, exchange, 'Deposit', token, token2TransferAmount, dispatch)
+            setToken2TransferAmount(0)
         }
     }
     
@@ -90,15 +101,22 @@ const Balance = () => {
   
         <div className='exchange__transfers--form'>
           <div className='flex-between'>
-  
+            <p><small>Token</small><br /><img src={eth} alt="Token logo" />{symbols && symbols[1]}</p>
+            <p><small>Wallet</small><br />{tokenBalances && tokenBalances[1]}</p>
+            <p><small>Exchange</small><br />{exchangeBalances && exchangeBalances[1]}</p>
           </div>
   
-          <form>
+          <form onSubmit={(event) => depositHandler(event, tokens[1])}>
             <label htmlFor="token1"></label>
-            <input type="text" id='token1' placeholder='0.0000'/>
+            <input 
+            type="text" 
+            id='token1' 
+            placeholder='0.0000'
+            value={token2TransferAmount === 0 ? '' : token2TransferAmount}
+            onChange={(event) => amountHandler(event, tokens[1])}/>
   
             <button className='button' type='submit'>
-              <span></span>
+              <span>Deposit</span>
             </button>
           </form>
         </div>
