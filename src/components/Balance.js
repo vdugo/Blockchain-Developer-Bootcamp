@@ -73,6 +73,22 @@ const Balance = () => {
             setToken2TransferAmount(0)
         }
     }
+
+    const withdrawHandler = (event, token) => 
+    {
+        event.preventDefault()
+
+        if (token.address === tokens[0].address)
+        {
+            transferTokens(provider, exchange, 'Withdraw', token, token1TransferAmount, dispatch)
+            setToken1TransferAmount(0)
+        }
+        else
+        {
+            transferTokens(provider, exchange, 'Withdraw', token, token2TransferAmount, dispatch)
+            setToken2TransferAmount(0)
+        }
+    }
     
 
     useEffect(() => {
@@ -101,7 +117,7 @@ const Balance = () => {
             <p><small>Exchange</small><br />{exchangeBalances && exchangeBalances[0]}</p>
           </div>
   
-          <form onSubmit={(event) => depositHandler(event, tokens[0])}>
+          <form onSubmit={isDeposit ? (event) => depositHandler(event, tokens[0]) : (event) => withdrawHandler(event, tokens[0])}>
             <label htmlFor="token0">{symbols && symbols[0]} Amount</label>
             <input type="text" 
             id='token0' 
@@ -126,7 +142,7 @@ const Balance = () => {
             <p><small>Exchange</small><br />{exchangeBalances && exchangeBalances[1]}</p>
           </div>
   
-          <form onSubmit={(event) => depositHandler(event, tokens[1])}>
+          <form onSubmit={isDeposit ? (event) => depositHandler(event, tokens[1]) : (event) => withdrawHandler(event, tokens[1])}>
             <label htmlFor="token1"></label>
             <input 
             type="text" 
