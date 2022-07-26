@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import dapp from '../assets/dapp.svg'
@@ -7,6 +7,7 @@ import eth from '../assets/eth.svg'
 import { loadBalances, transferTokens } from '../store/interactions';
 
 const Balance = () => {
+    const [isDeposit, setIsDeposit] = useState(true)
     const [token1TransferAmount, setToken1TransferAmount] = useState(0)
     const [token2TransferAmount, setToken2TransferAmount] = useState(0)
 
@@ -25,6 +26,25 @@ const Balance = () => {
     const symbols = useSelector(state => state.tokens.symbols)
 
     const tokenBalances = useSelector(state => state.tokens.balances)
+
+    const depositRef = useRef(null)
+    const withdrawRef = useRef(null)
+
+    const tabHandler = (event) =>
+    {
+        if (event.target.className !== depositRef.current.className)
+        {
+            event.target.className = 'tab tab--active'
+            depositRef.current.className = 'tab'
+            setIsDeposit(false)
+        }
+        else
+        {
+            event.target.className = 'tab tab--active'
+            withdrawRef.current.className = 'tab'
+            setIsDeposit(true)
+        }
+    }
 
     const amountHandler = (event, token) => 
     {
@@ -67,8 +87,8 @@ const Balance = () => {
         <div className='component__header flex-between'>
           <h2>Balance</h2>
           <div className='tabs'>
-            <button className='tab tab--active'>Deposit</button>
-            <button className='tab'>Withdraw</button>
+            <button onClick={tabHandler} ref={depositRef} className='tab tab--active'>Deposit</button>
+            <button onClick={tabHandler} ref={withdrawRef} className='tab'>Withdraw</button>
           </div>
         </div>
   
@@ -90,7 +110,7 @@ const Balance = () => {
             onChange={(e) => amountHandler(e, tokens[0])}/>
   
             <button className='button' type='submit'>
-              <span>Deposit</span>
+              {isDeposit ? <span>Deposit</span> : <span>Withdraw</span>}
             </button>
           </form>
         </div>
@@ -116,7 +136,7 @@ const Balance = () => {
             onChange={(event) => amountHandler(event, tokens[1])}/>
   
             <button className='button' type='submit'>
-              <span>Deposit</span>
+                {isDeposit ? <span>Deposit</span> : <span>Withdraw</span>}
             </button>
           </form>
         </div>
