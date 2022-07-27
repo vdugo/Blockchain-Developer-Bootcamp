@@ -68,7 +68,6 @@ export const subscribeToEvents = (exchange, dispatch) =>
 
     exchange.on('Order', (id, user, tokenGet, amountGet, tokenGive, amountGive, timestamp, event) => {
         const order = event.args
-        console.log(`This is event.args[0]: ${event.args[0]}`)
         dispatch( { type: 'NEW_ORDER_SUCCESS', order, event } )
     })
 }
