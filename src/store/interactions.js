@@ -88,6 +88,17 @@ export const loadBalances = async (exchange, tokens, account, dispatch) =>
     dispatch({ type: 'EXCHANGE_TOKEN_2_BALANCE_LOADED', balance})
 }
 
+// load all orders
+export const loadAllOrders = async (provider, exchange, dispatch) =>
+{
+    const block = await provider.getBlockNumber()
+    // fetch all orders that emitted an Order event from the 0th block to the current block
+    const orderStream = await exchange.queryFilter('Order', 0, block)
+    const allOrders = orderStream.map(event => event.args)
+
+    dispatch( { type: 'ALL_ORDERS_LOADED', allOrders } )
+}
+
 // Transfer tokens, deposits and withdrawals
 
 export const transferTokens = async (provider, exchange, transferType, token, amount, dispatch) =>
