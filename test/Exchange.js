@@ -79,10 +79,10 @@ describe('Exchange', () =>
                 expect(event.event).to.equal('Deposit')
     
                 const args = event.args
-                expect(args._token).to.equal(token1.address)
-                expect(args._user).to.equal(user1.address)
-                expect(args._amount).to.equal(amount)
-                expect(args._balance).to.equal(amount)
+                expect(args.token).to.equal(token1.address)
+                expect(args.user).to.equal(user1.address)
+                expect(args.amount).to.equal(amount)
+                expect(args.balance).to.equal(amount)
     
             })
         })
@@ -132,10 +132,10 @@ describe('Exchange', () =>
                 expect(event.event).to.equal('Withdraw')
     
                 const args = event.args
-                expect(args._token).to.equal(token1.address)
-                expect(args._user).to.equal(user1.address)
-                expect(args._amount).to.equal(amount)
-                expect(args._balance).to.equal(0)
+                expect(args.token).to.equal(token1.address)
+                expect(args.user).to.equal(user1.address)
+                expect(args.amount).to.equal(amount)
+                expect(args.balance).to.equal(0)
     
             })
         })
@@ -205,13 +205,13 @@ describe('Exchange', () =>
                 expect(event.event).to.equal('Order')
     
                 const args = event.args
-                expect(args._id).to.equal(1)
-                expect(args._user).to.equal(user1.address)
-                expect(args._tokenGet).to.equal(token2.address)
-                expect(args._amountGet).to.equal(tokens(1))
-                expect(args._tokenGive).to.equal(token1.address)
-                expect(args._amountGive).to.equal(tokens(1))
-                expect(args._timestamp).to.at.least(1)
+                expect(args.id).to.equal(1)
+                expect(args.user).to.equal(user1.address)
+                expect(args.tokenGet).to.equal(token2.address)
+                expect(args.amountGet).to.equal(tokens(1))
+                expect(args.tokenGive).to.equal(token1.address)
+                expect(args.amountGive).to.equal(tokens(1))
+                expect(args.timestamp).to.at.least(1)
     
             })
         })
@@ -275,13 +275,13 @@ describe('Exchange', () =>
                     expect(event.event).to.equal('Cancel')
         
                     const args = event.args
-                    expect(args._id).to.equal(1)
-                    expect(args._user).to.equal(user1.address)
-                    expect(args._tokenGet).to.equal(token2.address)
-                    expect(args._amountGet).to.equal(tokens(1))
-                    expect(args._tokenGive).to.equal(token1.address)
-                    expect(args._amountGive).to.equal(tokens(1))
-                    expect(args._timestamp).to.at.least(1)
+                    expect(args.id).to.equal(1)
+                    expect(args.user).to.equal(user1.address)
+                    expect(args.tokenGet).to.equal(token2.address)
+                    expect(args.amountGet).to.equal(tokens(1))
+                    expect(args.tokenGive).to.equal(token1.address)
+                    expect(args.amountGive).to.equal(tokens(1))
+                    expect(args.timestamp).to.at.least(1)
         
                 })
             })
@@ -350,14 +350,14 @@ describe('Exchange', () =>
                     expect(event.event).to.equal('Trade')
         
                     const args = event.args
-                    expect(args._id).to.equal(1)
-                    expect(args._user).to.equal(user2.address)
-                    expect(args._tokenGet).to.equal(token2.address)
-                    expect(args._amountGet).to.equal(tokens(1))
-                    expect(args._tokenGive).to.equal(token1.address)
-                    expect(args._amountGive).to.equal(tokens(1))
-                    expect(args._creator).to.equal(user1.address)
-                    expect(args._timestamp).to.at.least(1)
+                    expect(args.id).to.equal(1)
+                    expect(args.user).to.equal(user2.address)
+                    expect(args.tokenGet).to.equal(token2.address)
+                    expect(args.amountGet).to.equal(tokens(1))
+                    expect(args.tokenGive).to.equal(token1.address)
+                    expect(args.amountGive).to.equal(tokens(1))
+                    expect(args.creator).to.equal(user1.address)
+                    expect(args.timestamp).to.at.least(1)
     
                 })
             })

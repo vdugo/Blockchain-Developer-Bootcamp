@@ -82,7 +82,7 @@ async function main()
     console.log(`Made order from ${user1.address}`)
 
     // user1 cancels order
-    orderId = result.events[0].args._id
+    orderId = result.events[0].args.id
     transaction = await exchange.connect(user1).cancelOrder(orderId)
     result = await transaction.wait()
     console.log(`Cancelled order from ${user1.address}\n`)
@@ -99,7 +99,7 @@ async function main()
     console.log(`Made order from ${user1.address}`)
 
     // user2 fills order
-    orderId = result.events[0].args._id
+    orderId = result.events[0].args.id
     transaction = await exchange.connect(user2).fillOrder(orderId)
     result = await transaction.wait()
     console.log(`Filled order from ${user1.address}`)
@@ -113,7 +113,7 @@ async function main()
     console.log(`Made order from ${user1.address}`)
 
     // user2 fills another order
-    orderId = result.events[0].args._id
+    orderId = result.events[0].args.id
     transaction = await exchange.connect(user2).fillOrder(orderId)
     result = await transaction.wait()
     console.log(`Filled order from ${user1.address}`)
@@ -127,7 +127,7 @@ async function main()
     console.log(`Made order from ${user1.address}`)
 
     // user2 fills final order
-    orderId = result.events[0].args._id
+    orderId = result.events[0].args.id
     transaction = await exchange.connect(user2).fillOrder(orderId)
     result = await transaction.wait()
     console.log(`Filled order from ${user1.address}`)
