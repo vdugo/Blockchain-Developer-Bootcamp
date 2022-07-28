@@ -180,11 +180,9 @@ export const myFilledOrdersSelector = createSelector(
         orders = orders.filter((o) => o.tokenGive === tokens[0].address || o.tokenGive === tokens[1].address)
 
         // Sort orders by date ascending
-        orders = orders.sort((order) => a.timestamp - b.timestamp)
+        orders = orders.sort((a, b) => a.timestamp - b.timestamp)
 
         orders = decorateMyFilledOrders(orders, account, tokens)
-
-        console.log(orders)
 
         return orders
     }
