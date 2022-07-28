@@ -133,7 +133,17 @@ export const priceChartSelector = createSelector(
 
         orders = orders.map((order) => decorateOrder(order, tokens))
 
-        return({ 
+        // get last 2 orders for final price and price change
+        let secondLastOrder, lastOrder
+        [secondLastOrder, lastOrder] = orders.slice(orders.length - 2, orders.length)
+
+        const lastPrice = get(lastOrder, 'tokenPrice', 0)
+
+        const secondLastPrice = get(secondLastOrder, 'tokenPrice', 0)
+
+        return({
+            lastPrice,
+            lastPriceChange: (lastPrice >= secondLastPrice ? '+' : '-'),
             series: [
                 {
                     data: buildGraphData(orders)
