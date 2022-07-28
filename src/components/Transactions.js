@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 
 import { useSelector } from "react-redux";
-import { myOpenOrdersSelector } from "../store/selectors";
+import { myOpenOrdersSelector, myFilledOrdersSelector } from "../store/selectors";
 
 import sort from '../assets/sort.svg'
 
@@ -10,6 +10,7 @@ import Banner from "./Banner";
 const Transactions = () => {
     const [showMyOrders, setShowMyOrders] = useState(true)
     const myOpenOrders = useSelector(myOpenOrdersSelector)
+    const myFilledOrders = useSelector(myFilledOrdersSelector)
     const symbols = useSelector(state => state.tokens.symbols)
 
     const tradeRef = useRef(null)
@@ -86,18 +87,19 @@ const Transactions = () => {
         <table>
           <thead>
             <tr>
-              <th></th>
-              <th></th>
-              <th></th>
+              <th>Time<img src={sort} alt="Sort"/></th>
+              <th>{symbols && symbols[0]}<img src={sort} alt="Sort"/></th>
+              <th>{symbols && symbols[0]}/{symbols && symbols[1]}<img src={sort} alt="Sort"/></th>
             </tr>
           </thead>
           <tbody>
-
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
+            {myFilledOrders && myFilledOrders.map((order, index) => (
+                <tr key={index}>
+                    <td>{order.formattedTimestamp}</td>
+                    <td style={{color: `${order.orderClass}`}}>{order.orderSign}{order.token0Amount}</td>
+                    <td>{order.tokenPrice}</td>
+                </tr>
+            ))}
 
           </tbody>
         </table>
