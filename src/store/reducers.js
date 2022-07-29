@@ -233,7 +233,7 @@ export const provider = (state = {}, action) => {
       case 'TRANSFER_REQUEST':
         return {
           ...state,
-          trasnsaction: {
+          transaction: {
             transactionType: 'Transfer',
             isPending: true,
             isSuccessful: false
@@ -316,3 +316,4 @@ export const provider = (state = {}, action) => {
           return state
     }
   }
+  

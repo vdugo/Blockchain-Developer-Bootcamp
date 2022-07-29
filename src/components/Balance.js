@@ -96,7 +96,7 @@ const Balance = () => {
         {
             loadBalances(exchange, tokens, account, dispatch)
         }
-    }, [exchange, tokens, account, transferInProgress])
+    }, [exchange, tokens, account, transferInProgress, dispatch])
 
     return (
       <div className='component exchange__transfers'>
@@ -143,7 +143,7 @@ const Balance = () => {
           </div>
   
           <form onSubmit={isDeposit ? (event) => depositHandler(event, tokens[1]) : (event) => withdrawHandler(event, tokens[1])}>
-            <label htmlFor="token1"></label>
+            <label htmlFor="token1">{symbols && symbols[1]} Amount</label>
             <input 
             type="text" 
             id='token1' 
